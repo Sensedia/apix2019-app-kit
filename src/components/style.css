@@ -1,0 +1,55 @@
+.kit-image {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.kit-image:hover,
+.kit-image:focus {
+    box-shadow: 0 5px 25px rgba(0,0,0,0.9);
+}
+
+.Preto {
+  background-color: #000;
+  color: #FFF;
+}
+
+.Branco {
+  background-color: #FFF;
+  color: #000;
+}
+
+.Rosa {
+  background-color: magenta;
+  color: #000;
+}
+
+.Azul {
+  background-color: blue;
+  color: #000;
+}
+
+.Anil {
+  background-color: aqua;
+  color: #000;
+}
+
+.Verde {
+  background-color: green;
+  color: #000;
+}
+
+.Amarelo {
+  background-color: yellow;
+  color: #000;
+}
+
+.Vermelho {
+  background-color: red;
+  color: #000;
+}
+
+.dropdown-item:hover {
+  color: #16181b;
+  text-decoration: none;
+  background-color: #dddddd;
+}
