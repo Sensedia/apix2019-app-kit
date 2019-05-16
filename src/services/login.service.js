@@ -3,8 +3,20 @@ import axios from "axios";
 export const loginService = {
   login,
   logout,
-  register
+  register,
+  getUser
 };
+
+function getUser() {
+  return new Promise((resolve, reject) => {
+    let user = localStorage.getItem("user");
+    if (user) {
+      resolve(user);
+    } else {
+      reject();
+    }
+  })
+}
 
 let users;
 axios

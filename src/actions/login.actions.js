@@ -5,7 +5,21 @@ export const loginActions = {
     login,
     logout,
     register,
-    cancel
+    cancel,
+    getUser
+}
+
+function getUser() {
+    return dispatch => { 
+        dispatch({ type: "GET_USER_REQUEST" })
+        loginService.getUser()
+        .then(user => {
+            dispatch({ type: "GET_USER_SUCCESS", payload: user });
+        })
+        .catch(err => {
+            dispatch({ type: "GET_USER_FAIL" });
+        })
+    }
 }
 
 function login(username, password) {

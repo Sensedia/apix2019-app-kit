@@ -17,7 +17,7 @@ TopBarProgress.config({
 });
 
 const ProgressBarPure = props => {
-  return props.auth.isLogging /** || props.table.isFetchingTable */ ? (
+  return props.auth.isLogging  || props.kits.isSubmitting  ? (
     <TopBarProgress />
   ) : (
     ""

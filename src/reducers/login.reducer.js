@@ -40,6 +40,25 @@ export function auth(state = initialState, action) {
                 ...state,
                 errorMessage: ""
             }
+        case 'GET_USER_REQUEST': {
+            return {
+                ...state,
+                gettingUser: true
+            }
+        }
+        case 'GET_USER_FAIL': {
+            return {
+                ...state,
+                gettingUser: false
+            }
+        }
+        case 'GET_USER_SUCCESS': {
+            return {
+                ...state,
+                gettingUser: false,
+                user: action.payload
+            }
+        }
         default:
             return state;
     }
