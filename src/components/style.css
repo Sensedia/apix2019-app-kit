@@ -1,7 +1,22 @@
 .kit-image {
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
   transition: box-shadow 0.3s ease-in-out;
+
+  width: auto;
+  height: 20vh;
+  display: block;
 }
+
+/* .frame {
+  width: auto;
+  height: 30vh;
+  background: transparent no-repeat;
+  background-size: cover;
+}
+
+.frame > img {
+  display: block;
+} */
 
 .kit-image:hover,
 .kit-image:focus {
@@ -13,8 +28,28 @@
   color: #FFF;
 }
 
-.Branco {
-  background-color: #FFF;
+.Azul {
+  background-color: blue;
+  color: #000;
+}
+
+.Marrom {
+  background-color: saddlebrown;
+  color: #FFF;
+}
+
+.Verde {
+  background-color: green;
+  color: #000;
+}
+
+.Cinza {
+  background-color: gray;
+  color: #000;
+}
+
+.Laranja {
+  background-color: darkorange;
   color: #000;
 }
 
@@ -23,28 +58,23 @@
   color: #000;
 }
 
-.Azul {
-  background-color: blue;
+.Roxo {
+  background-color: purple;
+  color: #FFF;
+}
+
+.Vermelho {
+  background-color: red;
   color: #000;
 }
 
-.Anil {
-  background-color: aqua;
-  color: #000;
-}
-
-.Verde {
-  background-color: green;
+.Branco {
+  background-color: #FFF;
   color: #000;
 }
 
 .Amarelo {
   background-color: yellow;
-  color: #000;
-}
-
-.Vermelho {
-  background-color: red;
   color: #000;
 }
 
