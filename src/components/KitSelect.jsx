@@ -22,10 +22,10 @@ class KitSelectPure extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container" style={{maxWidth: 800}}>
         <h2 className="text-center">Escolha do Kit</h2>
-        <div className="row align-items-center">
-          <div className="col-m">
+        <div className="row align-items-center justify-content-center">
+          <div className="col-sm">
             <div className="table">
               <div className="row justify-content-center frame">
                 <img

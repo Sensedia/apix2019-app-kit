@@ -27,13 +27,15 @@ export function auth(state = initialState, action) {
                 ...state,
                 isLogging: false,
                 isLogged: false,
-                cpfError: action.payload
+                cpfError: action.payload.cpf,
+                loginError: action.payload.message
             }
         case 'LOGOUT':
             return {
                 ...state,
                 isLogging: false,
-                isLogged: false
+                isLogged: false,
+                useUserData: false
             }
         case 'CLEAR_MESSAGE':
             return {
@@ -57,6 +59,65 @@ export function auth(state = initialState, action) {
                 ...state,
                 gettingUser: false,
                 user: action.payload
+            }
+        }
+        case 'REGISTER_REQUEST': {
+            return {
+                ...state,
+                isRegistering: true,
+                isLogged: false,
+            }
+        }
+        case 'REGISTER_SUCCESS': {
+            return {
+                ...state,
+                isRegistering: false,
+                isLogged: true,
+                user: action.payload
+            }
+        }
+        case 'REGISTER_FAIL': {
+            return {
+                ...state,
+                cpfError: null,
+                isRegistering: false,
+                useUserData: false,
+                registerError: action.payload
+            }
+        }
+        case 'REGISTER_CANCEL': {
+            return {
+                ...state,
+                isRegistering: false,
+                isLogged: false,
+                errorRegistering: action.payload
+            }
+        }
+        case 'UPDATE_USER': {
+            return {
+                ...state,
+                useUserData: true
+            }
+        }
+        case 'UPDATE_USER_REQUEST': {
+            return {
+                ...state,
+                isUpdating: true,
+            }
+        }
+        case 'UPDATE_USER_SUCCESS': {
+            return {
+                ...state,
+                isUpdating: false,
+                user: action.payload,
+                useUserData: false
+            }
+        }
+        case 'UPDATE_USER_FAIL': {
+            return {
+                ...state,
+                isUpdating: false,
+                errorUpdating: action.payload
             }
         }
         default:

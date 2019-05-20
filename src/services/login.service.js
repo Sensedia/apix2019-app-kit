@@ -1,15 +1,18 @@
 import axios from "axios";
 
+const API_URL = "http://localhost:8000/clients"
+
 export const loginService = {
   login,
   logout,
   register,
+  update,
   getUser
 };
 
 function getUser() {
   return new Promise((resolve, reject) => {
-    let user = localStorage.getItem("user");
+    let user = JSON.parse(localStorage.getItem("user"));
     if (user) {
       resolve(user);
     } else {
@@ -30,21 +33,18 @@ axios
     }
   });
 
-function login(cpf) {
-  // Escreva aqui o código de login
-  // Essa função precisa retornar uma Promise
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (cpf.length < 1) {
-        reject("Need to provide CPF.");
-      } else if (!users[cpf]) {
-        reject(cpf);
-      } else {
-        localStorage.setItem("user", JSON.stringify(users[cpf]));
-        resolve(users[cpf]);
-      }
-    }, 1000);
-  });
+function login(document) {
+  
+  try {
+    if (!document || document.length < 1) {
+      return new Promise((resolve, reject) => { reject(new Error("Need to provide CPF.")) });
+    }
+
+    return axios.get(API_URL + "/" + document)
+    .then(res => res.json())
+  } catch(err) {
+    return new Promise((resolve, reject) => { reject(err); });
+  }
 }
 
 function logout() {
@@ -55,8 +55,26 @@ function logout() {
 }
 
 function register(user) {
-  /**
-   * Use Axios ou Node-fetch para enviar a requisição de cadastro
-   * para a API de Pagamentos, retorne a Promise da requisição
-   */
+  try {
+    return axios.post(API_URL, user, {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    });
+  } catch(err) {
+    console.log(err)
+    return new Promise((resolve,reject) => { reject(err); });
+  }
+}
+
+function update(user) {
+  try {
+    return axios.put(API_URL, user, {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    });
+  } catch(err) {
+    return new Promise((resolve,reject) => { reject(err); });
+  }
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.css";
 
@@ -10,7 +10,12 @@ import { Register } from "./components/Register";
 import { KitSelect } from "./components/KitSelect";
 
 function Index() {
-  return <h2 className="text-center">Home</h2>;
+  return <div align="center"><h2 className="text-center">Introdução</h2>
+  <p style={{maxWidth: 500}}>Este app serve para mostrar como se faz uma integração entre APIs. Use um editor de texto para editar o arquivo <code>kits.service.js</code> para configurar a requisição aos microsserviços.</p></div>;
+}
+
+function NotFound() {
+  return <Redirect to="/" />
 }
 
 const App = props => {
@@ -35,14 +40,17 @@ const App = props => {
         </li>
       </ul>
 
-      <Route path="/" exact component={Index} />
-      <Route path="/login/" component={Login} />
-      <Route path="/register/" component={Register} />
-      <PrivateRoute
-        path="/kit-select/"
-        isLogged={props.isLogged}
-        component={KitSelect}
-      />
+      <Switch>
+        <Route path="/" exact component={Index} />
+        <Route path="/login/" component={Login} />
+        <Route path="/register/" component={Register} />
+        <PrivateRoute
+          path="/kit-select/"
+          isLogged={props.isLogged}
+          component={KitSelect}
+        />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 };

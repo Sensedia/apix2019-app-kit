@@ -5,6 +5,8 @@ export const loginActions = {
     login,
     logout,
     register,
+    update,
+    doUpdate,
     cancel,
     getUser
 }
@@ -22,20 +24,42 @@ function getUser() {
     }
 }
 
-function login(username, password) {
+function login(document) {
     return (dispatch) => {
         dispatch({ type: "LOGIN_REQUEST" });
-        return loginService.login(username, password)
+        return loginService.login(document)
         .then((user) => {
             dispatch({ type: "LOGIN_SUCCESS", payload: user });
             history.push("/");
         }, err => {
-            dispatch({ type: "LOGIN_FAIL", payload: err });
+            dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: err.message } });
             history.push("/register")
         })
         .catch(err => {
-            dispatch({ type: "LOGIN_FAIL", payload: err });
+            dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: err.message } });            
+            history.push("/register")
         });
+    }
+}
+
+function doUpdate() {
+    return dispatch => {
+        dispatch({ type: "UPDATE_USER" });
+        history.push("/register");
+    }
+}
+
+function update(user) {
+    return dispatch => {
+        dispatch({ type: "UPDATE_USER_REQUEST" });
+        loginService.register(user)
+        .then(res => {
+            dispatch({ type: "UPDATE_USER_SUCCESS", payload: user });
+            history.push("/");
+        }, err => { dispatch({ type: "UPDATE_USER_FAIL", payload: err.message }) })
+        .catch(err => {
+            dispatch({ type: "UPDATE_USER_FAIL", payload: err.message })
+        })
     }
 }
 
@@ -45,10 +69,17 @@ function logout() {
         return loginService.logout();
     }
 }
-function register(cpf, email, phone) {
+function register(document, name, email, phone, payday) {
     return dispatch => {
         dispatch({ type: "REGISTER_REQUEST" });
-        loginService.register({ cpf, email, phone })
+        loginService.register({ document, name, email, phone, payday })
+        .then(res => {
+            dispatch({ type: "REGISTER_SUCCESS", payload: { document, name, email, phone, payday } })
+            history.push("/");
+        }, err => { dispatch({ type: "REGISTER_FAIL", payload: err.message }) })
+        .catch(err => {
+            dispatch({ type: "REGISTER_FAIL", payload: err.message });
+        })
     }
 }
 
