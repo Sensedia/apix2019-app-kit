@@ -1,5 +1,6 @@
 {
-  "name": "hooks",
+  "name": "apix-2019-app-kit",
+  "author": "Sensedia S.A.",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
