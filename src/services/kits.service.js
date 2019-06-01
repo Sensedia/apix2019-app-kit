@@ -1,7 +1,12 @@
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_KITS_API_URL + 'kits';
+const PAYMENT_API_URL = process.env.REACT_APP_PAYMENT_API_URL;
+
 export const kitsService = {
-    submitKit
+    submitKit,
+    buyRecommendation,
+    getKits
 }
 
 /**
@@ -11,9 +16,16 @@ export const kitsService = {
  * axios são Promises!)
  */
 function submitKit(kit) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(kit);
-        }, 3000);
-    })
+    let config = { headers: { 'Content-type': 'application/json'} }    
+    return axios.post(API_URL,kit,config)
+}
+
+function buyRecommendation(id, payload) {
+    let config = { headers: { 'Content-type': 'application/json'} }    
+    return axios.post(PAYMENT_API_URL + '/customers/' + id, payload, config)
+}
+
+function getKits(user) {
+    let config = { headers: { 'Content-type': 'application/json'} }    
+    return axios.get(API_URL + '?phone=' + user.phone, config)
 }

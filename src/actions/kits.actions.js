@@ -4,39 +4,38 @@ export const kitsActions = {
     selectType,
     setRef,
     setColor,
-    setSize,
     setGender,
     submit
 }
 
-function submit(kit, user) {
+const COLORS = ["Preto","Azul","Marrom","Verde","Cinza","Laranja","Rosa","Roxo","Vermelho","Branco","Amarelo"];
+const COLORS_EN = ["BLACK","BLUE","BROWN","GREEN","GREY","ORANGE","PINK","PURPLE","RED","WHITE","YELLOW"];
+
+function submit(kit, phone) {
     const effectiveKit = {
-        camisa: {
-            cor: kit.camisa.color,
-            tamanho: kit.camisa.size,
-            genero: kit.camisa.gender
-        },
-        calca: {
-            cor: kit.calca.color,
-            tamanho: kit.calca.size,
-            genero: kit.calca.gender
-        },
-        calcado: {
-            cor: kit.sapato.color,
-            tamanho: kit.sapato.size,
-            genero: kit.sapato.gender
-        }
+        phone: phone,
+        gender: kit.gender.substring(0,1),
+        specifications: [
+            {
+                type: "PANT",
+                color: COLORS_EN[COLORS.indexOf(kit.calca.color)]
+            },
+            {
+                type: "SHIRT",
+                color: COLORS_EN[COLORS.indexOf(kit.camisa.color)]
+            },
+            {
+                type: "SHOES",
+                color: COLORS_EN[COLORS.indexOf(kit.sapato.color)]
+            }
+        ]
     }
     return dispatch => {
         dispatch({ type: "SUBMIT_KIT_REQUEST" });
-        kitsService.submitKit(effectiveKit, user)
-        .then(kit => {
+        kitsService.submitKit(effectiveKit)
+        .then(res => {
             dispatch({ type: "SUBMIT_KIT_SUCCESS" });
-            console.log('submitted kit')
-            console.log(kit);
-            console.log(user);
-        })
-        .catch(err => {
+        }, err => {
             dispatch({ type: "SUBMIT_KIT_FAIL" });
         })
     }
@@ -60,15 +59,19 @@ function setColor(color, which) {
     }
 }
 
-function setSize(size, which) {
+function setGender(gender) {
     return dispatch => {
-        dispatch({ type: "SET_SIZE", payload: { object: which, value: size } });
-    }
-
-}
-
-function setGender(gender, which) {
-    return dispatch => {
-        dispatch({ type: "SET_GENDER", payload: { object: which, value: gender } });
+        dispatch({ type: "SET_GENDER", payload: gender });
     }
 }
+
+// const processError = err => {
+//     if (err.response && err.response.data) {
+//         if (err.response.data.length) {
+//             return err.response.data.reduce((acc,cur) => acc += cur.message + '\n', "");
+//         } else {
+//             return err.response.data.message;
+//         }
+//     }
+//     return err.message;
+// }

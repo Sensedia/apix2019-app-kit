@@ -10,6 +10,7 @@ const RegisterPure = props => {
 
   const [cpf, setCpf] = useState(props.auth.cpfError ? props.auth.cpfError : 
     props.auth.useUserData ? props.auth.user.document : "");
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState(props.auth.useUserData ? props.auth.user.email : "");
   const [phone, setPhone] = useState(props.auth.useUserData ? props.auth.user.phone : "");
   const [name, setName] = useState(props.auth.useUserData ? props.auth.user.name : "");
@@ -17,12 +18,12 @@ const RegisterPure = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.register(cpf, name, email, phone, payday);
+    props.register(cpf, name, email, phone, password, payday);
   }
 
   const handleUpdate = e => {
     e.preventDefault();
-    props.update({cpf, name, email, phone, payday});  
+    props.update({cpf, name, email, phone, password, payday});  
   }
 
   const handleCancel = e => {
@@ -41,7 +42,7 @@ const RegisterPure = props => {
         type="text"
         className={"form-control w-25 m-2 cpf"}
         style={{minWidth: 200}}
-        placeholder="CPF (only numbers)"
+        placeholder="CPF (só números)"
         onChange={e => setCpf(e.target.value)}
         value={cpf}
       />
@@ -67,10 +68,18 @@ const RegisterPure = props => {
         type="text"
         className="form-control w-25 m-2 phone"
         style={{minWidth: 200}}
-        placeholder="Phone (+5511999999999)"
+        placeholder="Telefone (+5511999999999)"
         onChange={e => setPhone(e.target.value)}
         required
         value={phone}
+      />
+      <input
+        type="password"
+        className="form-control w-25 m-2 password"
+        style={{minWidth: 200}}
+        placeholder="Senha"
+        onChange={e => setPassword(e.target.value)}
+        required
       />
       <div className="d-flex justify-content-center">Dia do pagamento:<Dropdown>
         <Dropdown.Toggle size="sm" className="ml-2" variant="primary" id="dropdown-payday">
@@ -94,9 +103,9 @@ const RegisterPure = props => {
         className="btn btn-outline-primary m-2"
         onClick={handleCancel}
         >Cancel</button>
-      {props.auth.errorUpdating ? <p className="text-danger text-center">{props.auth.errorUpdating}</p> : ""}
-      {props.auth.loginError ? <p className="text-danger text-center">{props.auth.loginError}</p> : ""}
-      {props.auth.registerError ? <p className="text-danger text-center">{props.auth.registerError}</p> : ""}
+      {props.auth.errorUpdating ? <pre className="text-danger text-center">{props.auth.errorUpdating}</pre> : ""}
+      {props.auth.loginError ? <pre className="text-danger text-center">{props.auth.loginError}</pre> : ""}
+      {props.auth.registerError ? <pre className="text-danger text-center">{props.auth.registerError}</pre> : ""}
     </div>
   );
 };

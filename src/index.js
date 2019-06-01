@@ -7,6 +7,8 @@ import { ConnectedApp } from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./store";
 import { history } from "./history";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+require('dotenv').config()
 
 ReactDOM.render(
   <Router history={history}>

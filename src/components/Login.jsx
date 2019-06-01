@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux'
 
 import { loginActions } from "../actions";
 
 const LoginPure = (props) => {
     const [cpf, setCpf] = useState("");
-
-    useEffect(() => {
-        const f = async () => { await props.getUser(); }
-        f();
-      }, [])
+    const [password, setPassword] = useState("");
 
     const loginBtnClass = props.isLogging ? " disabled" : "";
     const render = props.isLogged ?
@@ -25,7 +21,14 @@ const LoginPure = (props) => {
             name="cpf" 
             onChange={e => setCpf(e.target.value)}
             placeholder="CPF"/>
-        <button type="button" className={"btn btn-outline-primary m-2" + loginBtnClass} onClick={e => props.login(cpf)}>Enter</button>
+        <input 
+            type="password" 
+            className="form-control w-25 m-2 password" 
+            name="password" 
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Senha"/>
+        <button type="button" className={"btn btn-outline-primary m-2" + loginBtnClass} onClick={e => props.login(cpf, password)}>Login</button>
+        {props.loginError ? <pre className="text-danger text-center">{props.loginError}</pre> : ""}    
     </div>
 
     return render;

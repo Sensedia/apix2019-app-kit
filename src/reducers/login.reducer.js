@@ -40,7 +40,10 @@ export function auth(state = initialState, action) {
         case 'CLEAR_MESSAGE':
             return {
                 ...state,
-                errorMessage: ""
+                errorMessage: "",
+                registerError: "",
+                errorUpdating: "",
+                loginError: ""
             }
         case 'GET_USER_REQUEST': {
             return {
@@ -89,8 +92,7 @@ export function auth(state = initialState, action) {
             return {
                 ...state,
                 isRegistering: false,
-                isLogged: false,
-                errorRegistering: action.payload
+                isLogged: false
             }
         }
         case 'UPDATE_USER': {

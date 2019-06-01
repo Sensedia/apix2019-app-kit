@@ -20,10 +20,32 @@ class KitSelectPure extends React.Component {
     }
   }
 
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.submit({
+      calca: this.props.calca,
+      camisa: this.props.camisa,
+      sapato: this.props.sapato,
+      gender: this.props.gender
+    }, this.props.user.phone)
+  }
+
   render() {
     return (
       <div className="container" style={{maxWidth: 800}}>
-        <h2 className="text-center">Escolha do Kit</h2>
+        <h2 className="text-center">Selecionar Kit</h2>
+        <div align="center">
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" className={"mb-4" + (this.props.gender ? " " + this.props.gender : " Masculino")} id="dropdown-gender">
+              {this.props.gender ? this.props.gender : "Masculino" }
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => { this.props.setGender("Masculino") }}>Masculino</Dropdown.Item>
+              <Dropdown.Item onClick={() => { this.props.setGender("Feminino") }}>Feminino</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
         <div className="row align-items-center justify-content-center">
           <div className="col-sm">
             <div className="table">
@@ -47,7 +69,7 @@ class KitSelectPure extends React.Component {
                   tabIndex="-1"
                   onClick={e => {
                     e.preventDefault();
-                    // this.props.calca["element"].focus();
+                    this.props.calca["element"].focus();
                     this.props.selectType("calca");
                   }}
                   className="kit-image"
@@ -86,23 +108,6 @@ class KitSelectPure extends React.Component {
                       }}>{color}</Dropdown.Item>)}
                   </Dropdown.Menu>
                 </Dropdown>
-                <input
-                  type="text"
-                  className="form-control w-25 text-center m-2 mb-4 tamanho"
-                  placeholder="Tamanho"
-                  value={this.props.camisa["size"]}
-                  onChange={e => this.props.setSize(e.target.value, "camisa")}
-                />
-                <Dropdown>
-                  <Dropdown.Toggle variant="secondary" className={"mb-4" + (this.props.camisa["gender"] ? " " + this.props.camisa["gender"] : " Masculino")} id="dropdown-gender">
-                    {this.props.camisa["gender"] ? this.props.camisa["gender"] : "Masculino" }
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Masculino", "camisa") }}>Masculino</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Feminino", "camisa") }}>Feminino</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
               </div>
             )}
             {this.props.calca.isSelected && (
@@ -117,23 +122,6 @@ class KitSelectPure extends React.Component {
                     {COLORS.map((color, i) => <Dropdown.Item key={i} className={color} onClick={() => {
                         this.props.setColor(color, "calca")
                       }}>{color}</Dropdown.Item>)}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <input
-                  type="text"
-                  className="form-control w-25 text-center m-2 mb-4 tamanho"
-                  placeholder="Tamanho"
-                  value={this.props.calca["size"]}
-                  onChange={e => this.props.setSize(e.target.value, "calca")}
-                />
-                <Dropdown>
-                  <Dropdown.Toggle variant="secondary" className={"mb-4" + (this.props.calca["gender"] ? " " + this.props.calca["gender"] : " Masculino")} id="dropdown-gender">
-                    {this.props.calca["gender"] ? this.props.calca["gender"] : "Masculino" }
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Masculino", "calca") }}>Masculino</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Feminino", "calca") }}>Feminino</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
@@ -152,33 +140,10 @@ class KitSelectPure extends React.Component {
                       }}>{color}</Dropdown.Item>)}
                   </Dropdown.Menu>
                 </Dropdown>
-                <input
-                  type="text"
-                  className="form-control w-25 text-center m-2 mb-4 tamanho"
-                  placeholder="Tamanho"
-                  value={this.props.sapato["size"]}
-                  onChange={e => this.props.setSize(e.target.value, "sapato")}
-                />
-                <Dropdown>
-                  <Dropdown.Toggle variant="secondary" className={"mb-4" + (this.props.sapato["gender"] ? " " + this.props.sapato["gender"] : " Masculino")} id="dropdown-gender">
-                    {this.props.sapato["gender"] ? this.props.sapato["gender"] : "Masculino" }
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Masculino", "sapato") }}>Masculino</Dropdown.Item>
-                    <Dropdown.Item onClick={() => { this.props.setGender("Feminino", "sapato") }}>Feminino</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
               </div>
             )}
             <div align="center" className="container">
-              <button className="btn btn-primary" onClick={e => this.props.submit(
-                {
-                  camisa: this.props.camisa,
-                  calca: this.props.calca,
-                  sapato: this.props.sapato
-                }, this.props.user
-              )}>Enviar</button>
+              <button className="btn btn-primary" onClick={this.handleSubmit}>Enviar</button>
             </div>
           </div>
         </div>

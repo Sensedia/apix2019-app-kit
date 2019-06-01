@@ -8,6 +8,7 @@ import { Login } from "./components/Login";
 import { ProgressBar } from "./components/ProgressBar";
 import { Register } from "./components/Register";
 import { KitSelect } from "./components/KitSelect";
+import { KitList } from "./components/KitList";
 
 function Index() {
   return <div align="center"><h2 className="text-center">Introdução</h2>
@@ -25,12 +26,17 @@ const App = props => {
       <ul className="nav justify-content-center">
         <li className="nav-item">
           <Link className="nav-link" to="/">
-            Home
+            Introdução
           </Link>
         </li>
         <li className="nav-item">
           <Link className="nav-link" to="/kit-select">
-            Kits
+            Selecionar
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/kit-list">
+            Listagem de Kits
           </Link>
         </li>
         <li className="nav-item">
@@ -48,6 +54,12 @@ const App = props => {
           path="/kit-select/"
           isLogged={props.isLogged}
           component={KitSelect}
+        />
+
+        <PrivateRoute
+          path="/kit-list/"
+          isLogged={props.isLogged}
+          component={KitList}
         />
         <Route component={NotFound} />
       </Switch>

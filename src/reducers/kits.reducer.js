@@ -2,22 +2,17 @@
 const initialState = {
     camisa: {
       isSelected: true,
-      color: "Branco",
-      size: "",
-      gender: "Masculino"
+      color: "Branco"
     },
     calca: {
       isSelected: false,
-      color: "Branco",
-      size: "",
-      gender: "Masculino"
+      color: "Branco"
     },
     sapato: {
       isSelected: false,
-      color: "Branco",
-      size: "",
-      gender: "Masculino"
+      color: "Branco"
     },
+    gender: "Masculino",
     hasSubmit: false
 }
 
@@ -27,6 +22,7 @@ export function kits(state = initialState, action) {
         case 'SELECT_TYPE': {
             // Select only one
             let newState = {
+                ...state,
                 camisa: { ...state.camisa, isSelected: action.payload === "camisa" },
                 calca: { ...state.calca, isSelected: action.payload === "calca" },
                 sapato: { ...state.sapato, isSelected: action.payload === "sapato" }
@@ -43,27 +39,12 @@ export function kits(state = initialState, action) {
                     color: value
                 }
             }
-        } case 'SET_SIZE': {
-            // Set size of the object
-            const object = action.payload.object;
-            const value = action.payload.value;
-            return {
-                ...state,
-                [object]: {
-                    ...state[object],
-                    size: value
-                }
-            }
         } case 'SET_GENDER': {
             // Set gender of the object
-            const object = action.payload.object;
-            const value = action.payload.value;
+            const value = action.payload;
             return {
                 ...state,
-                [object]: {
-                    ...state[object],
-                    gender: value
-                }
+                gender: value
             }
         } case 'SET_REF': {
             // Set HTML element reference of the object

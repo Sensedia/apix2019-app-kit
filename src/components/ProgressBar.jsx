@@ -16,6 +16,8 @@ const ProgressBarPure = props => {
   return (
   props.auth.isLogging  || 
   props.kits.isSubmitting ||
+  props.recommendations.isGettingKits ||
+  props.recommendations.isSendingBuy ||
   props.auth.isRegistering ||
   props.auth.isUpdating) ? (
     <TopBarProgress />
