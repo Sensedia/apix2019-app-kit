@@ -22,7 +22,7 @@ function submitKit(kit) {
 
 function buyRecommendation(id, payload) {
     let config = { headers: { 'Content-type': 'application/json'} }    
-    return axios.post(PAYMENT_API_URL + '/customers/' + id, payload, config)
+    return axios.post(PAYMENT_API_URL + '/customers/' + id + '/debits', payload, config)
 }
 
 function getKits(user) {

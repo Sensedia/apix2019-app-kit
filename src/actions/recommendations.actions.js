@@ -13,22 +13,38 @@ function clearMessage() {
 }
 
 function buyRecommendations(selectedKits) {
-    return dispatch => {
-        dispatch({ type: 'BUY_RECOMMENDATION_REQUEST', payload: selectedKits})
-        let postPayload = selectedKits
+    return async dispatch => {
+        await dispatch({ type: 'BUY_RECOMMENDATION_REQUEST', payload: selectedKits})
         // montar o payload
-        // selectedKits.map(kit => {});
-        kitsService.buyRecommendation(postPayload).then(res => {
-            dispatch({ type: 'BUY_RECOMMENDATION_SUCCESS', payload: res });
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 5000)
-        }).catch(err => {
-            dispatch({ type: 'BUY_RECOMMENDATION_FAIL', payload: err.message });
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 3000)
-        })
+        if (Object.keys(selectedKits).length < 1) {
+            dispatch({ type: 'BUY_RECOMMENDATION_FAIL', payload: "Nenhuma recomendação selecionada" });
+        }
+        await Object.keys(selectedKits).map(async kit => {
+            // one debit post for each kit selected
+            if (!Object.keys(selectedKits[kit]).some(index => selectedKits[kit][index].selected)) {
+                dispatch({ type: 'BUY_RECOMMENDATION_FAIL', payload: "Nenhuma recomendação selecionada" });
+            }
+            await Object.keys(selectedKits[kit]).forEach(async index => {
+                let recom = selectedKits[kit][index];
+                if (recom.selected) {
+                    let postPayload = {
+                        productId: kit,
+                        description: recom.description,
+                        value: recom.value,
+                        installmentsNumber: recom.parcelas
+                    }
+                    let userId = JSON.parse(localStorage.getItem("user")).id;
+                    await kitsService.buyRecommendation(userId, postPayload)
+                    .then(res => {
+                        dispatch({ type: 'BUY_RECOMMENDATION_SUCCESS', payload: 'Itens comprados!!!' });
+                        console.log(res);
+                    }, err => {
+                        dispatch({ type: 'BUY_RECOMMENDATION_FAIL', payload: err.response.data.error });
+                        console.log(err.response.data)
+                    })
+                }
+            })
+        });
     }
 }
 

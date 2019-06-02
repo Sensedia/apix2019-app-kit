@@ -10,7 +10,7 @@ const LoginPure = (props) => {
     const loginBtnClass = props.isLogging ? " disabled" : "";
     const render = props.isLogged ?
     <div align="center">
-        You are already logged in.<br/>
+        Você já está autenticado/a.<br/>
         <button type="button" className="btn btn-outline-dark mr-1" onClick={props.logout}>Sair</button>
         <button type="button" className="btn btn-outline-dark" onClick={props.doUpdate}>Atualizar dados</button>
     </div> :

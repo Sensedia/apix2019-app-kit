@@ -58,11 +58,11 @@ function login(document, password) {
                 dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: response.message } });
             }
         }, err => {
-            if (err.response.status === 404) {
-                dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: 'Usuário não cadastrado' } });
+            let errorMessage = processError(err)
+            if (err.response.status === 422 && err.response.data.code == "422.001") {
+                dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: errorMessage } });
                 history.push("/register")
             }
-            let errorMessage = processError(err)
             dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: errorMessage } });
         })
     }

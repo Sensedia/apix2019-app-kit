@@ -1,4 +1,5 @@
-import React from 'react';
+import { Dropdown } from 'react-bootstrap';
+import React, { useState } from 'react';
 
 export const Recommendation = ({
     id,
@@ -6,10 +7,18 @@ export const Recommendation = ({
     index,
     selected,
     handleSelect,
+    handleParcelas
 }) => {
+    const [parcelas, setParcelas] = useState(1)
+
+    const handleSetParcelas = num => {
+        setParcelas(num);
+        handleParcelas(id, index, num);
+    }
     if (!recom) {
         return <p>Recomendação não disponível</p>
     }
+
     let camisa = recom.find(r => r.type === "SHIRT");
     let camisahttp = (camisa.link.search('http') !== -1) ? '' : 'http://';
     let camisaimghttp = (camisa.image && camisa.image.search('http') !== -1) ? '' : 'http://';
@@ -23,7 +32,7 @@ export const Recommendation = ({
     return (
         <li className="nav-item">
             <h4>Recomendação {index + 1}:</h4>
-            <div style={{border: '2px solid'}} className={"text-center container border-" + ((selected[id] && selected[id][index]) ? 'success' : 'dark') + " rounded"}>
+            <div style={{border: '2px solid'}} className={"text-center container border-" + ((selected[id] && selected[id][index] && selected[id][index].selected) ? 'success' : 'dark') + " rounded"}>
                 <div className="row align-items-center">
                     <div className="col-sm">
                         <p>Camisa: <br/> <a href={camisahttp + camisa.link} target="_blank" rel="noopener noreferrer">{camisa.title}</a>
@@ -71,9 +80,24 @@ export const Recommendation = ({
                 </div>
                 Preço total: <b>R$ {sum.toFixed(2)}</b>
                 <button
-                    className={"btn btn-" + ((selected[id] && selected[id][index]) ? 'success' : 'dark') + ' m-2'}
+                    className={"btn btn-" + ((selected[id] && selected[id][index] && selected[id][index].selected ) ? 'success' : 'dark') + ' m-2'}
                     onClick={e => handleSelect(id, index)}
                 >Selecionar</button>
+                { selected[id] && selected[id][index] && selected[id][index].selected &&
+                <div className="d-flex justify-content-center mb-2">
+                    Número de parcelas:
+                    <Dropdown>
+                        <Dropdown.Toggle size="sm" className="ml-2" variant="primary" id="dropdown-payday">
+                        {parcelas}
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="overflow-auto" style={{height: 200}}>
+                        {[1,2,3,4,5,6,7,8,9,10,11,12].map((num, i) => <Dropdown.Item key={i} onClick={() => {
+                            handleSetParcelas(num)
+                            }}>{num}</Dropdown.Item>)}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>}
             </div>
         </li>
     )

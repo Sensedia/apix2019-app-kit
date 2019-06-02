@@ -5,6 +5,10 @@ import { MDBIcon, MDBBtn } from "mdbreact";
 import { Recommendation } from "./Recommendation";
 import { recommendationsActions } from '../actions';
 
+const getIndexName = (index) => {
+  return ['firstRecommendations','secondRecommendations','thirdRecommendations'][index];
+}
+
 const KitListPure = ({
   kits,
   getKits,
@@ -24,14 +28,41 @@ const KitListPure = ({
   }, []);
 
   const handleSelectRecommendation = (id, index) => {
-    if (kits.filter(r => r.id === id)){
+    let kit = kits.find(r => r.id === id);
+    if (kit){
       if (!selectedKits[id]) {
-        setSelectedKits({ ...selectedKits, [id]: { [index]: true } })
+        setSelectedKits({ 
+          ...selectedKits, 
+          [id]: { 
+            [index]: {
+              selected: true,
+              parcelas: 1,
+              value: kit[getIndexName(index)].reduce((acc,cur) => acc += cur.price, 0),
+              description: kit[getIndexName(index)].reduce((acc, cur) => acc += cur.title + " - ","")
+            }
+          } 
+        })
       } else {
         let k = selectedKits[id];
-        k[index] = (k[index]) ? !k[index] : true;
+        if (k[index]) {
+          if (!k[index].selected) {
+            k[index]['selected'] = true;
+          } else {
+            k[index]['selected'] = false;
+          }
+        }
         setSelectedKits({ ...selectedKits, [id]: k });
       }
+    }
+  }
+
+  const handleParcelas = (id, index, num) => {
+    if (kits.filter(r => r.id === id)){
+      let k = selectedKits[id];
+      if (k[index]) {
+        k[index]['parcelas'] = num;
+      }
+      setSelectedKits({ ...selectedKits, [id]: k });
     }
   }
 
@@ -80,24 +111,27 @@ const KitListPure = ({
             <ul className="nav flex-column m-2">
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].firstRecommendation}
+                recom={kits[active].firstRecommendations}
                 index={0}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}
+                handleParcelas={handleParcelas}
               />
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].secondRecommendation}
+                recom={kits[active].secondRecommendations}
                 index={1}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}
+                handleParcelas={handleParcelas}
               />
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].thirdRecommendation}
+                recom={kits[active].thirdRecommendations}
                 index={2}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}
+                handleParcelas={handleParcelas}
               />
             </ul>
             <div className="text-right">
