@@ -59,7 +59,7 @@ function login(document, password) {
             }
         }, err => {
             let errorMessage = processError(err)
-            if (err.response.status === 422 && err.response.data.code == "422.001") {
+            if (err.response.status === 422 && err.response.data.code === "422.001") {
                 dispatch({ type: "LOGIN_FAIL", payload: { cpf: document, message: errorMessage } });
                 history.push("/register")
             }
@@ -124,7 +124,7 @@ function cancel() {
     return dispatch => {
         dispatch(clearMessage());
         dispatch({ type: "REGISTER_CANCEL" });
-        history.push("/login");
+        history.goBack();
     }
 }
 

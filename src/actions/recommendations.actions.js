@@ -33,11 +33,21 @@ function buyRecommendations(selectedKits) {
                         value: recom.value,
                         installmentsNumber: recom.parcelas
                     }
+
+                    // Set chosen
+                    await kitsService.patchKit(kit, parseInt(index)).then(res => {
+                        console.log('Item comprado.');
+                    }, err => {
+                        console.log(err.response);
+                    })
+
                     let userId = JSON.parse(localStorage.getItem("user")).id;
                     await kitsService.buyRecommendation(userId, postPayload)
                     .then(res => {
-                        dispatch({ type: 'BUY_RECOMMENDATION_SUCCESS', payload: 'Itens comprados!!!' });
-                        console.log(res);
+                        dispatch({ type: 'BUY_RECOMMENDATION_SUCCESS', payload: 'Itens comprados!' });
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 3000);
                     }, err => {
                         dispatch({ type: 'BUY_RECOMMENDATION_FAIL', payload: err.response.data.error });
                         console.log(err.response.data)

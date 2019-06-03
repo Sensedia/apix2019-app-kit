@@ -91,8 +91,7 @@ export function auth(state = initialState, action) {
         case 'REGISTER_CANCEL': {
             return {
                 ...state,
-                isRegistering: false,
-                isLogged: false
+                isRegistering: false
             }
         }
         case 'UPDATE_USER': {

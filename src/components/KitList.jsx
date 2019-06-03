@@ -6,7 +6,7 @@ import { Recommendation } from "./Recommendation";
 import { recommendationsActions } from '../actions';
 
 const getIndexName = (index) => {
-  return ['firstRecommendations','secondRecommendations','thirdRecommendations'][index];
+  return ['firstRecommendation','secondRecommendation','thirdRecommendation'][index];
 }
 
 const KitListPure = ({
@@ -16,7 +16,8 @@ const KitListPure = ({
   getKitsErrorMessage,
   buyErrorMessage,
   buySuccessMessage,
-  deleteKitErrorMessage
+  deleteKitErrorMessage,
+  clearMessage
 }) => {
 
   const [active, setActive] = useState(0);
@@ -50,6 +51,16 @@ const KitListPure = ({
           } else {
             k[index]['selected'] = false;
           }
+        } else {
+          k = {
+            ...k,
+            [index]: {
+              selected: true,
+              parcelas: 1,
+              value: kit[getIndexName(index)].reduce((acc,cur) => acc += cur.price, 0),
+              description: kit[getIndexName(index)].reduce((acc, cur) => acc += cur.title + " - ","")
+            }
+          }
         }
         setSelectedKits({ ...selectedKits, [id]: k });
       }
@@ -73,23 +84,25 @@ const KitListPure = ({
 
   const handleClick = (e,i) => {
     e.preventDefault();
+    clearMessage();
     setActive(i);
   }
+
+  console.log(kits)
 
   return (
     <div className="container" style={{ maxWidth: 800 }}>
       <h2 className="text-center">Listagem de Kits</h2>
-      {!kits ||
-        (kits.length === 0 && (
-          <div><h4 className="text-center">
-            Não há recomendações disponíveis ainda!
-          </h4>
-          {getKitsErrorMessage && 
-            <div className="alert alert-danger fade show" role="alert">
-              {getKitsErrorMessage}
-            </div>}
-          </div>
-        ))}
+      {(!kits || kits.length === 0) &&
+      <div className="text-center">
+        <h4>Não há recomendações disponíveis ainda!</h4>
+        <MDBBtn size="sm" color="secondary" onClick={e => { history.push("/kit-select") }}>
+          <MDBIcon icon="plus" className="m-2"/>Adicionar</MDBBtn>
+        {getKitsErrorMessage && 
+        <div className="alert alert-danger fade show" role="alert">
+          {getKitsErrorMessage}
+        </div>}
+      </div>}
       {kits && kits.length > 0 && (
         <div className="row justify-content-center">
           <div className="col-">
@@ -111,7 +124,7 @@ const KitListPure = ({
             <ul className="nav flex-column m-2">
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].firstRecommendations}
+                recom={kits[active].firstRecommendation}
                 index={0}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}
@@ -119,7 +132,7 @@ const KitListPure = ({
               />
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].secondRecommendations}
+                recom={kits[active].secondRecommendation}
                 index={1}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}
@@ -127,7 +140,7 @@ const KitListPure = ({
               />
               <Recommendation
                 id={kits[active].id} 
-                recom={kits[active].thirdRecommendations}
+                recom={kits[active].thirdRecommendation}
                 index={2}
                 selected={selectedKits}
                 handleSelect={handleSelectRecommendation}

@@ -6,7 +6,8 @@ const PAYMENT_API_URL = process.env.REACT_APP_PAYMENT_API_URL;
 export const kitsService = {
     submitKit,
     buyRecommendation,
-    getKits
+    getKits,
+    patchKit
 }
 
 /**
@@ -28,4 +29,9 @@ function buyRecommendation(id, payload) {
 function getKits(user) {
     let config = { headers: { 'Content-type': 'application/json'} }    
     return axios.get(API_URL + '?phone=' + user.phone, config)
+}
+
+function patchKit(kit, index) {
+    let config = { headers: { 'Content-type': 'application/json'} }    
+    return axios.patch(API_URL + "/" + kit, { recommendations: [ { id: index } ] }, config);
 }
