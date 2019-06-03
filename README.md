@@ -6,7 +6,7 @@ Para rodar o app, primeiro use o comando
 
 ### `npm install`
 
-Depois disso, para rodar em [http://localhost:3000](http://localhost:3000), use o comando
+Depois disso, para rodar em [http://localhost:4201](http://localhost:4201), use o comando
 
 ### `npm start`
 

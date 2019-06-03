@@ -6,10 +6,6 @@ export const store = createStore(
     allReducers,
     compose(
         applyMiddleware(thunk),
-        // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__({
-        //     serializeState: false,
-        //     actionSanitizer,
-        //     stateSanitizer: (state) => state.payload ? { ...state, payload: '<<LONG_BLOB>>' } : state
-        // })
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
