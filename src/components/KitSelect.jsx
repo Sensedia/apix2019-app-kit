@@ -145,6 +145,7 @@ class KitSelectPure extends React.Component {
             <div align="center" className="container">
               <button className="btn btn-primary" onClick={this.handleSubmit}>Enviar</button>
             </div>
+            {this.props.submitMessage && <pre className="text-success text-center m-2">{this.props.submitMessage}</pre>}
           </div>
         </div>
       </div>

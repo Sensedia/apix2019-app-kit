@@ -5,7 +5,8 @@ export const kitsActions = {
     setRef,
     setColor,
     setGender,
-    submit
+    submit,
+    clearSubmitMessage
 }
 
 const COLORS = ["Preto","Azul","Marrom","Verde","Cinza","Laranja","Rosa","Roxo","Vermelho","Branco","Amarelo"];
@@ -34,10 +35,19 @@ function submit(kit, phone) {
         dispatch({ type: "SUBMIT_KIT_REQUEST" });
         kitsService.submitKit(effectiveKit)
         .then(res => {
-            dispatch({ type: "SUBMIT_KIT_SUCCESS" });
+            dispatch({ type: "SUBMIT_KIT_SUCCESS", payload: "Kit submetido com sucesso!" });
+            setTimeout(() => {
+                dispatch(clearSubmitMessage());
+            }, 3000);
         }, err => {
             dispatch({ type: "SUBMIT_KIT_FAIL" });
         })
+    }
+}
+
+function clearSubmitMessage() {
+    return dispatch => {
+        dispatch({ type: 'CLEAR_SUBMIT_MESSAGE' })
     }
 }
 

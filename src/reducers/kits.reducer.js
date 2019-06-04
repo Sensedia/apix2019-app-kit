@@ -61,10 +61,18 @@ export function kits(state = initialState, action) {
         } case 'SUBMIT_KIT_REQUEST': {
             return { ...state, hasSubmit: false, isSubmitting: true }
         } case 'SUBMIT_KIT_SUCCESS': {
-            return { ...state, hasSubmit: true, isSubmitting: false }
+            return { 
+                ...state, 
+                hasSubmit: true, 
+                isSubmitting: false,
+                submitMessage: action.payload
+            }
         } case 'SUBMIT_KIT_FAIL': {
             return { ...state, isSubmitting: false }
-        } default: {
+        } case 'CLEAR_SUBMIT_MESSAGE': {
+            return { ...state, submitMessage: "" }
+        }
+        default: {
             return state;
         }
     }
