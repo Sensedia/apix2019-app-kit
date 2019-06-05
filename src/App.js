@@ -12,7 +12,7 @@ import { KitList } from "./components/KitList";
 
 function Index() {
   return <div align="center"><h2 className="text-center">Introdução</h2>
-  <p style={{maxWidth: 500}}>Este app serve para mostrar como se faz uma integração entre APIs. Use um editor de texto para editar o arquivo <code>kits.service.js</code> para configurar a requisição aos microsserviços.</p></div>;
+  <p style={{maxWidth: 500}}>Este app serve para mostrar como se faz uma integração entre APIs.</p></div>;
 }
 
 function NotFound() {
